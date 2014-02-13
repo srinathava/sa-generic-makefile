@@ -12,5 +12,6 @@ executable (by default named "test") in the current directory.
 
 Current Limitations
 -------------------
-# There is no support for multiple sub-directories. All sources need to be
+
+There is no support for multiple sub-directories. All sources need to be
 in the current directory.
