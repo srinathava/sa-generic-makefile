@@ -1,4 +1,4 @@
-PROGNAME := test
+PROGNAME ?= test
 
 CXX := g++
 CXXFLAGS := -g -O0

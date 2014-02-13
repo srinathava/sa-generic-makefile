@@ -1,1 +1,3 @@
+PROGNAME := foo
+
 include ../Makefile
