@@ -2,18 +2,19 @@ PROGNAME ?= test
 
 CXX ?= g++
 
+OBJDIR ?= obj
+
+BINDIR ?= bin
+
 CXXFLAGS :=
 ifdef DEBUG
   CXXFLAGS := -g -O0
 endif
 
-OBJDIR ?= obj
-
-BINDIR ?= bin
-
 SOURCES := $(patsubst ./%,%,$(shell find . -name '*.cpp'))
 
 DEPENDS := $(patsubst %.cpp,$(OBJDIR)/%.d,$(SOURCES))
+
 OBJS := $(patsubst %.cpp,$(OBJDIR)/%.o,$(SOURCES))
 
 # This prevents 'make clean' from regenerating the dependency files only to
@@ -45,9 +46,28 @@ $(PROGNAME): $(OBJS)
 clean:
 	rm -f $(OBJS) $(DEPENDS) $(PROGNAME)
 
+# The distclean target also cleans out the directories created to hold the
+# obj and bin files. However, we make a good faith effort not to blow away
+# the current directory if the OBJDIR or BINDIR variables are set to the
+# current directory!
 .PHONY : distclean
 distclean: clean
-	rm -rf $(OBJDIR) 
+
+ifneq ($(shell pwd),$(realpath $(OBJDIR)))
+rmobjdir:
+	rm -rf $(OBJDIR)
+  
+distclean: rmobjdir
+
+endif
+
+ifneq ($(shell pwd),$(realpath $(BINDIR)))
+rmbindir:
+	rm -rf $(BINDIR)
+  
+distclean: rmbindir
+
+endif
 
 # For every file foo.cpp, generate the dependencies for build/foo.o
 # file into build/foo.d. Note that build/foo.d itself will have the same
