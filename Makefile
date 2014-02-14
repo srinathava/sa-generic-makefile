@@ -1,3 +1,27 @@
+# A generic Makefile
+# ==================
+#
+# This Makefile can be dropped into a directory containing C++ files in
+# arbitrarily deep subdirectories. Typing make should then "just work".
+#
+# By default, the object files are placed in a separate directory called
+# "obj/" and the executable (by default called "test") is placed in a
+# subdirectory called "bin/".
+#
+# If you wish to modify these parameters, it is best to create another
+# Makefile which includes this Makefile rather than modifying this Makefile
+# itself. The variables which are conditionally set below can be
+# over-ridden by defining them in your Makefile *before* including this
+# Makefile.
+# 
+# To build with debug symbols:
+#
+# 		make DEBUG=1 
+#
+# To build with the actual compiler invokation lines and output, use
+#
+# 		make VERBOSE=1
+
 PROGNAME ?= test
 
 CXX ?= g++
@@ -6,9 +30,19 @@ OBJDIR ?= obj
 
 BINDIR ?= bin
 
-CXXFLAGS :=
+CXXFLAGS ?=
+
+# ================================================================
+# End of over-ridable variables
+# ================================================================
+
 ifdef DEBUG
-  CXXFLAGS := -g -O0
+  CXXFLAGS += -g -O0
+endif
+
+HIDE := @
+ifdef VERBOSE
+  HIDE :=
 endif
 
 SOURCES := $(patsubst ./%,%,$(shell find . -name '*.cpp'))
@@ -88,12 +122,12 @@ endif
 .SECONDEXPANSION:
 $(OBJDIR)/%.d : %.cpp $$(dir $$@)token
 	@echo "Updating dependency file $@"
-	@gcc -MM $< \
+	$(HIDE)gcc -MM $< \
 	    | sed 's!\(\w\+\).o!$(basename $@).o $(basename $@).d!' > $@
 
 $(OBJDIR)/%.o : %.cpp $$(dir $$@)token
 	@echo "Compiling: $<"
-	@$(CXX) $(CXXFLAGS) -c $< -o $@
+	$(HIDE)$(CXX) $(CXXFLAGS) -c $< -o $@
 
 # WISH: Find out why we have to specify this to be .PRECIOUS even though it
 # is an explicit target. This doesn't seem to be necessary with very simple
@@ -101,5 +135,5 @@ $(OBJDIR)/%.o : %.cpp $$(dir $$@)token
 .PRECIOUS: %/token
 %/token:
 	@echo "Creating directory $(dir $@)"
-	@mkdir -p $(@D)
-	@touch $@
+	$(HIDE)mkdir -p $(@D)
+	$(HIDE)touch $@
