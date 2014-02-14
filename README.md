@@ -7,11 +7,11 @@ In other words, you do not need to manually include the list of source
 files, dependencies etc.  All of those are automatically handled.
 
 The Makefile creates all *.o and *.d files in a separate subdirectory
-called build/ under the current directory. It however puts the final
-executable (by default named "test") in the current directory.
+called obj/ under the current directory and the final executable in a
+subdirectory called bin/ under the current directory.
 
-Current Limitations
--------------------
+Current Features/Limitations
+----------------------------
 
-There is no support for multiple sub-directories. All sources need to be
-in the current directory.
+* Arbitrarily deep source trees.
+* Automatically handles dependencies between sources and headers
