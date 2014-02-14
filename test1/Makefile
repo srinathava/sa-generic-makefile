@@ -1,3 +1,3 @@
 PROGNAME := foo
 
-include ../Makefile
+include ../Makefile.module
