@@ -1,6 +1,6 @@
 Example of project with subdirectories
 ======================================
-This test directory is laid out with the following structure
+This test directory is laid out with the following structure:
 
   PWD/
     src/
