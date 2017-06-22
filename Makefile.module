@@ -30,7 +30,9 @@ OBJDIR ?= obj
 
 BINDIR ?= bin
 
-CXXFLAGS ?= -std=c++11 -Wall -pedantic -Werror
+CXXFLAGS ?= 
+
+CXXFLAGS += -std=c++11 -Wall -pedantic -Werror
 
 # ================================================================
 # End of over-ridable variables
