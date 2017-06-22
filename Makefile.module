@@ -30,7 +30,7 @@ OBJDIR ?= obj
 
 BINDIR ?= bin
 
-CXXFLAGS ?=
+CXXFLAGS ?= -std=c++11 -Wall -pedantic -Werror
 
 # ================================================================
 # End of over-ridable variables
@@ -122,7 +122,7 @@ endif
 .SECONDEXPANSION:
 $(OBJDIR)/%.d : %.cpp $$(dir $$@)token
 	@echo "Updating dependency file $@"
-	$(HIDE)gcc -MM $< \
+	$(HIDE)gcc $(CXXFLAGS) -MM $< \
 	    | sed 's!\(\w\+\).o!$(basename $@).o $(basename $@).d!' > $@
 
 $(OBJDIR)/%.o : %.cpp $$(dir $$@)token
