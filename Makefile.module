@@ -125,7 +125,7 @@ endif
 $(OBJDIR)/%.d : %.cpp $$(dir $$@)token
 	@echo "Updating dependency file $@"
 	$(HIDE)gcc $(CXXFLAGS) -MM $< \
-	    | sed 's!\(\w\+\).o!$(basename $@).o $(basename $@).d!' > $@
+	    | sed 's!\(\w\+\)\.o!$(basename $@).o $(basename $@).d!' > $@
 
 $(OBJDIR)/%.o : %.cpp $$(dir $$@)token
 	@echo "Compiling: $<"
