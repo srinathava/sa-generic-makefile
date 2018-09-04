@@ -32,7 +32,9 @@ BINDIR ?= bin
 
 CXXFLAGS ?= 
 
-CXXFLAGS += -std=c++11 -Wall -pedantic -Werror
+CXXFLAGS += -std=c++1y -Wall -pedantic -Werror
+
+LINKOPTS ?= 
 
 # ================================================================
 # End of over-ridable variables
@@ -76,7 +78,7 @@ endif
 .DEFAULT_GOAL := $(PROGNAME)
 $(PROGNAME): $(OBJS)
 	@mkdir -p $(@D)
-	g++ -o $@ $(OBJS)
+	g++ -o $@ $(OBJS) $(LINKOPTS)
 
 .PHONY : clean
 clean:
